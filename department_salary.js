@@ -1,3 +1,5 @@
+// Task 1: Create a Department Structure
+
 const company = {
     departments: [
         {
@@ -50,3 +52,27 @@ const company = {
         }
     ]
 };
+
+// Task 2: Create a Recursive Function to Calculate Total Salary for a Department
+
+function calculateDepartmentSalary(department) {
+    function calculateEmployeeSalaries(employee) {
+        let totalSalary = employee.salary;
+        if (employee.subordinates && employee.subordinates.length > 0) {
+            for (let subordinate of employee.subordinates) {
+                totalSalary += calculateEmployeeSalaries(subordinate);
+            }
+        }
+        return totalSalary;
+    }
+    let departmentTotal = 0;
+    for (let employee of department.employees) {
+        departmentTotal += calculateEmployeeSalaries(employee);
+    }
+    return departmentTotal;
+}
+// testing the recursive function
+for (let department of company.departments) {
+    const totalSalary = calculateDepartmentSalary(department);
+    console.log(`Total Salary: ${department.departmentName}: $${totalSalary}`);
+}
